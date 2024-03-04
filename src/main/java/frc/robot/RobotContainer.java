@@ -9,8 +9,6 @@ import frc.robot.commands.MecanumDriveCommand;
 import frc.robot.subsystems.MecanumDrivetrainsubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 
 
@@ -23,10 +21,15 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   public RobotContainer() {
-    final MecanumDriveCommand m_robotDrive = new MecanumDriveCommand(m_MecanumDrivetrainsubsystem);
+    
     m_stick = new Joystick(Constants.OperatorConstants.kDriverControllerPort);
     configureBindings();
-    m_robotDrive.setDefaultCommand();
+    m_MecanumDrivetrainsubsystem.setDefaultCommand(new MecanumDriveCommand(
+      m_MecanumDrivetrainsubsystem,
+      ()-> m_stick.getRawAxis(OperatorConstants.kxaxis),
+      ()-> m_stick.getRawAxis(OperatorConstants.kyaxis),
+      ()-> m_stick.getRawAxis(OperatorConstants.kzaxis)
+    ));
   
   }
 
